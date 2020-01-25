@@ -5,6 +5,7 @@ from django.db import models
 class Wichtelgruppe(models.Model):
     budget = models.IntegerField()
     ablaufdatum = models.DateField()
+    wichteldatum = models.DateField()
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
 
