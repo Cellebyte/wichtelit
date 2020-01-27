@@ -19,7 +19,8 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
+    path('', views.HomeView.as_view(), name='home'),
+    path('impressum/', views.ImprintView.as_view(), name='impressum'),
     path('wichteln/<uuid:wichtelgruppe_id>', views.MemberView.as_view(), name='member'),
     path('wichteln/', views.GruppenView.as_view(), name='wichteln'),
     # path('wichteln/created/', view.)

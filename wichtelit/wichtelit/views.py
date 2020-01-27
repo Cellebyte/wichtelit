@@ -3,10 +3,25 @@ from django import http
 from wichtelit.forms import GruppenForm, MemberForm
 from wichtelit.models import Wichtelgruppe
 from django.views.generic.edit import FormView
+from django.views.generic.base import TemplateView
 
 
-def index(request):
-    return http.HttpResponse("Hallo Wilkommen zum Wichteln.")
+class MyTemplateView(TemplateView):
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['active'] = self.name
+        return context
+
+
+class HomeView(MyTemplateView):
+    name = 'home'
+    template_name = 'home.html'
+
+
+class ImprintView(MyTemplateView):
+    name = 'impressum'
+    template_name = 'impressum.html'
 
 
 class GruppenView(FormView):
@@ -39,7 +54,7 @@ class MemberView(FormView):
             self.object.save()
             wichtelgruppe.save()
             return http.HttpResponse(
-                f"Viel Spaß beim wichteln. Am {self.object.wichtelgruppe.wichteldatum} wird gewichtelt."
+                f"Viel Spaß beim wichteln. + {self.object.wichtelgruppe.wichteldatum} wird gewichtelt."
             )
         except Wichtelgruppe.DoesNotExist:
             return http.HttpResponseNotFound(

@@ -1,0 +1,46 @@
+{% load static %}
+<html>
+    <head>
+        <title>Wichteln</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <!-- <link rel="stylesheet" href="{% static 'css/blog.css' %}"> -->
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Wichtel-IT</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li {% if 'home' == active %}class="active"{% endif %}>
+                        <a href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li {% if 'impressum' == active %}class="active"{% endif %}>
+                        <a href="{% url 'impressum' %}">Impressum</a>
+                    </li>
+                </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+        <br/>
+        <br/>
+        <br/>
+        <div class="content container">
+            <div class="row">
+                <div class="col-12">
+                {% block content %}
+                {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
