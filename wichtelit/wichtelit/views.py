@@ -29,7 +29,9 @@ class GruppenView(FormView):
     form_class = GruppenForm
 
     def form_valid(self, form):
-        self.temp_object = form.save()
+        self.object = form.save(commit=False)
+        self.object.budget = 0
+        self.object.save()
         return super().form_valid(form)
         # return http.HttpResponseRedirect(self.get_success_url())
 
@@ -50,11 +52,11 @@ class MemberView(FormView):
             self.object = form.save(commit=False)
             # Nun die wichtelgruppe von oben hinzufügen
             self.object.wichtelgruppe = wichtelgruppe
-            wichtelgruppe.budget = wichtelgruppe.budget or 0 + form.cleaned_data['budget']
+            wichtelgruppe.budget = wichtelgruppe.budget + form.cleaned_data['budget']
             self.object.save()
             wichtelgruppe.save()
             return http.HttpResponse(
-                f"Viel Spaß beim wichteln. + {self.object.wichtelgruppe.wichteldatum} wird gewichtelt."
+                f"Viel Spaß beim wichteln. Am {self.object.wichtelgruppe.wichteldatum} wird gewichtelt."
             )
         except Wichtelgruppe.DoesNotExist:
             return http.HttpResponseNotFound(
