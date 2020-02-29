@@ -1,9 +1,10 @@
 from django import http
 
 from wichtelit.forms import GruppenForm, MemberForm
-from wichtelit.models import Wichtelgruppe
+from wichtelit.models import Wichtelgruppe, Wichtelmember
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateView
+from django.http import HttpResponse
 
 
 class MyTemplateView(TemplateView):
@@ -39,7 +40,15 @@ class GruppenView(FormView):
         return str(self.object.id)
 
 
-class MemberView(FormView):
+# def return_member(foo):
+#     members = Wichtelmember.objects.all()
+#     content = []
+#     for member in members:
+#         content.append(f"{member.emailAddress}, {member.budget}")
+#     return HttpResponse(content=content, status=200)
+
+
+class MemberFormView(FormView):
     template_name = 'form_MemberForm.html'
     form_class = MemberForm
 

@@ -21,7 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.HomeView.as_view(), name='home'),
     path('impressum/', views.ImprintView.as_view(), name='impressum'),
-    path('wichteln/<uuid:wichtelgruppe_id>', views.MemberView.as_view(), name='member'),
+    path('wichteln/<uuid:wichtelgruppe_id>', views.MemberFormView.as_view(), name='memberform'),
     path('wichteln/', views.GruppenView.as_view(), name='wichteln'),
+    # path('members/', views.MembersView.as_view(), name='members'),
+    # path('members', views.return_member, name='members'),
     # path('wichteln/created/', view.)
 ]
