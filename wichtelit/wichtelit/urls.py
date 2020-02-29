@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
+from .logic.email import emailing
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,5 +24,6 @@ urlpatterns = [
     path('impressum/', views.ImprintView.as_view(), name='impressum'),
     path('wichteln/<uuid:wichtelgruppe_id>', views.MemberView.as_view(), name='member'),
     path('wichteln/', views.GruppenView.as_view(), name='wichteln'),
+    path('sendemail', emailing, name="email"),
     # path('wichteln/created/', view.)
 ]

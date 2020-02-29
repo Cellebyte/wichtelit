@@ -56,7 +56,8 @@ class MemberView(FormView):
             self.object.save()
             wichtelgruppe.save()
             return http.HttpResponse(
-                f"Viel Spaß beim wichteln. Am {self.object.wichtelgruppe.wichteldatum} wird gewichtelt."
+                "Viel Spaß beim wichteln." +
+                f" Am {self.object.wichtelgruppe.wichteldatum} wird gewichtelt."
             )
         except Wichtelgruppe.DoesNotExist:
             return http.HttpResponseNotFound(
