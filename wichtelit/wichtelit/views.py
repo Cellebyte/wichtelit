@@ -36,7 +36,7 @@ class GruppenView(FormView):
         # return http.HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return str(self.temp_object.id)
+        return str(self.object.id)
 
 
 class MemberView(FormView):
