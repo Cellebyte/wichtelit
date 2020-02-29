@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
+<div class="col-8">
+    <h1 class="mt-2">Wichtelgruppenmitglied anlegen</h1>
+    <hr class="mt-0 mb-4" />
     <form method="post">{% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy}}
         <input type="submit" value="Absenden">
     </form>
+</div>
 {% endblock %}
