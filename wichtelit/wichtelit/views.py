@@ -1,10 +1,11 @@
 from datetime import date
+import secrets
 
 from django import http
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, View
 from django.views.generic.edit import FormView
 
 from wichtelit.forms import GruppenForm, MemberForm
@@ -64,6 +65,30 @@ class GruppenView(FormView):
 #     for member in members:
 #         content.append(f"{member.emailAddress}, {member.budget}")
 #     return HttpResponse(content=content, status=200)
+
+class Calculation(View):
+
+    def lostopf(self, members):
+        for i in range(len(members)):
+            loszieher = members[i]
+            lostopf = members[:i] + members[i+1:]
+            if loszieher.wichtelpartner is None:
+                loszieher.wichtelpartner = secrets.choice(
+                    lostopf
+                )
+                members.remove(loszieher.wichtelpartner)
+
+    def get(self):
+        gruppen = Wichtelgruppe.objects.all()
+        for gruppe in gruppen:
+            if date.today >= gruppe.ablaufdatum:
+                members = Wichtelmember.objects.get(wichtelgruppe=gruppe)
+                if len(members) < 2:
+                    print(f'{gruppe.id} hat weniger als 2 member.')
+                    continue
+                else:
+                    self.lostopf(members)
+
 
 class MemberFormView(FormView):
     template_name = 'form_MemberForm.html'
