@@ -10,6 +10,7 @@ autopep8 = "*"
 [packages]
 django = "*"
 django-crispy-forms = "*"
+django-basicauth = "*"
 
 [requires]
 python_version = "3.8"
