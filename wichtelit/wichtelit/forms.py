@@ -35,7 +35,7 @@ class GruppenForm(ModelForm):
 
     class Meta:
         model = Wichtelgruppe
-        exclude = ('id', 'budget')
+        exclude = ('id', 'budget', 'status')
 
 
 __all__ = ['MemberForm', 'GruppenForm']

@@ -1,5 +1,7 @@
 from datetime import date
 import secrets
+import logging
+from copy import copy
 
 from django import http
 from django.core.exceptions import PermissionDenied
@@ -9,7 +11,10 @@ from django.views.generic.base import TemplateView, View
 from django.views.generic.edit import FormView
 
 from wichtelit.forms import GruppenForm, MemberForm
-from wichtelit.models import Wichtelgruppe, Wichtelmember
+from wichtelit.models import Wichtelgruppe, Wichtelmember, Status
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 
 class MyTemplateView(TemplateView):
@@ -68,26 +73,38 @@ class GruppenView(FormView):
 
 class Calculation(View):
 
-    def lostopf(self, members):
-        for i in range(len(members)):
-            loszieher = members[i]
-            lostopf = members[:i] + members[i+1:]
-            if loszieher.wichtelpartner is None:
-                loszieher.wichtelpartner = secrets.choice(
-                    lostopf
-                )
-                members.remove(loszieher.wichtelpartner)
+    def lostopf(self, members, lostopf):
+        for index in range(len(members)):
+            not_in_list = False
+            loszieher = members[index]
+            try:
+                lostopf.remove(loszieher.id)
+            except ValueError:
+                not_in_list = True
+            loszieher.wichtelpartner = secrets.choice(
+                lostopf
+            )
+            logger.info(
+                f'{loszieher.emailAddress} hat partner {loszieher.wichtelpartner.emailAddress}')
+            loszieher.save()
+            lostopf.remove(loszieher.wichtelpartner)
+            if not not_in_list:
+                lostopf.append(loszieher)
 
-    def get(self):
-        gruppen = Wichtelgruppe.objects.all()
+    def get(self, request, *args, **kwargs):
+        gruppen = Wichtelgruppe.objects.filter(status=Status.ERSTELLT)
         for gruppe in gruppen:
-            if date.today >= gruppe.ablaufdatum:
-                members = Wichtelmember.objects.get(wichtelgruppe=gruppe)
+            if date.today() >= gruppe.ablaufdatum:
+                members = Wichtelmember.objects.filter(wichtelgruppe=gruppe)
+                lostopf = copy(members)
                 if len(members) < 2:
-                    print(f'{gruppe.id} hat weniger als 2 member.')
+                    logger.warning(f'{gruppe.id} hat weniger als 2 member.')
                     continue
                 else:
-                    self.lostopf(members)
+                    self.lostopf(list(members), list(lostopf))
+                gruppe.status = Status.GEWÜRFELT
+                gruppe.save()
+        return http.HttpResponse("true")
 
 
 class MemberFormView(FormView):
