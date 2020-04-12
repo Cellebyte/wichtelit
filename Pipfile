@@ -11,6 +11,13 @@ autopep8 = "*"
 django = "*"
 django-crispy-forms = "*"
 django-basicauth = "*"
+psycopg2 = "*"
+django-enum-choices = "*"
 
 [requires]
 python_version = "3.8"
+
+[scripts]
+dev = 'python wichtelit/manage.py runserver'
+makemigrations = 'python wichtelit/manage.py makemigrations'
+migrate = 'python wichtelit/manage.py migrate'
