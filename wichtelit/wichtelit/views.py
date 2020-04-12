@@ -92,18 +92,21 @@ class Calculation(View):
                 lostopf.append(loszieher)
 
     def get(self, request, *args, **kwargs):
-        gruppen = Wichtelgruppe.objects.filter(status=Status.ERSTELLT)
+        # Nimmt alle Gruppen die erstellt wurden und dessen ablaufdatum kleiner gleich heute ist.
+        gruppen = Wichtelgruppe.objects.filter(
+            status=Status.ERSTELLT,
+            ablaufdatum__lte=date.today()
+        )
         for gruppe in gruppen:
-            if date.today() >= gruppe.ablaufdatum:
-                members = Wichtelmember.objects.filter(wichtelgruppe=gruppe)
-                lostopf = copy(members)
-                if len(members) < 2:
-                    logger.warning(f'{gruppe.id} hat weniger als 2 member.')
-                    continue
-                else:
-                    self.lostopf(list(members), list(lostopf))
-                gruppe.status = Status.GEWÜRFELT
-                gruppe.save()
+            members = Wichtelmember.objects.filter(wichtelgruppe=gruppe)
+            lostopf = copy(members)
+            if len(members) < 2:
+                logger.warning(f'{gruppe.id} hat weniger als 2 member.')
+                continue
+            else:
+                self.lostopf(list(members), list(lostopf))
+            gruppe.status = Status.GEWÜRFELT
+            gruppe.save()
         return http.HttpResponse("true")
 
 
