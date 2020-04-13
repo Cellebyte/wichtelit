@@ -10,9 +10,9 @@ autopep8 = "*"
 [packages]
 django = "*"
 django-crispy-forms = "*"
-django-basicauth = "*"
 psycopg2 = "*"
 django-enum-choices = "*"
+django-recaptcha = "*"
 
 [requires]
 python_version = "3.8"

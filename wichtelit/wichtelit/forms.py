@@ -1,5 +1,7 @@
 from datetime import date
 
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
 from django.forms import DateField, IntegerField, ModelForm, ValidationError
 
 from wichtelit.models import Wichtelgruppe, Wichtelmember
@@ -7,6 +9,7 @@ from wichtelit.models import Wichtelgruppe, Wichtelmember
 
 class MemberForm(ModelForm):
     budget = IntegerField(min_value=1)
+    captcha = ReCaptchaField(widget=ReCaptchaV3)
 
     class Meta:
         model = Wichtelmember
@@ -16,6 +19,7 @@ class MemberForm(ModelForm):
 class GruppenForm(ModelForm):
     ablaufdatum = DateField(input_formats=['%d.%m.%Y'])
     wichteldatum = DateField(input_formats=['%d.%m.%Y'])
+    captcha = ReCaptchaField(widget=ReCaptchaV3)
 
     def clean(self):
         cleaned_data = super().clean()

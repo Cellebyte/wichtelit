@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from .secret import DB_PASSWORD
+from .secret import DB_PASSWORD, CAPTCHA_PRIVATE_KEY, CAPTCHA_PUBLIC_KEY
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -61,9 +61,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'wichtelit',
+    'captcha',
 ]
 
 MIDDLEWARE = [
+    'basicauth.middleware.BasicAuthMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -71,10 +73,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'basicauth.middleware.BasicAuthMiddleware',
 ]
 
 ROOT_URLCONF = 'wichtelit.urls'
+
+RECAPTCHA_REQUIRED_SCORE = 0.85
+RECAPTCHA_PRIVATE_KEY = CAPTCHA_PRIVATE_KEY or '6LfUFukUAAAAANboVLwQASuXQrw6ayFsfwFFQtRq'
+RECAPTCHA_PUBLIC_KEY = CAPTCHA_PUBLIC_KEY or '6LfUFukUAAAAAASAapQwhYeERyh532DDYQHHHER7'
+
 
 TEMPLATES = [
     {

@@ -1,17 +1,15 @@
-from datetime import date
-import secrets
 import logging
+import secrets
 from copy import copy
+from datetime import date
 
 from django import http
-from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.base import TemplateView, View
 from django.views.generic.edit import FormView
 
 from wichtelit.forms import GruppenForm, MemberForm
-from wichtelit.models import Wichtelgruppe, Wichtelmember, Status
+from wichtelit.models import Status, Wichtelgruppe, Wichtelmember
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -63,13 +61,6 @@ class GruppenView(FormView):
     def get_success_url(self):
         return str(self.object.id)
 
-
-# def return_member(foo):
-#     members = Wichtelmember.objects.all()
-#     content = []
-#     for member in members:
-#         content.append(f"{member.emailAddress}, {member.budget}")
-#     return HttpResponse(content=content, status=200)
 
 class Calculation(View):
 

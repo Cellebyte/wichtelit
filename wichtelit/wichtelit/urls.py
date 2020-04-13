@@ -29,5 +29,9 @@ urlpatterns = [
     path('wichteln/', views.GruppenView.as_view(), name='wichteln'),
     path('members/calculate', views.Calculation.as_view(), name='calculate'),
     # path('members', views.return_member, name='members'),
-    path('wichteln/<uuid:wichtelgruppe_id>/created', views.CreatedMemberView.as_view(), name='created')
+    path(
+        'wichteln/<uuid:wichtelgruppe_id>/created',
+        views.CreatedMemberView.as_view(),
+        name='created'
+    )
 ]

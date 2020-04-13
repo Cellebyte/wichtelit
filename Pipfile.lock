@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e346bed026b4f9d23199931a982ed94a02a51dcbad6725b10a97d2aa29c960d0"
+            "sha256": "e32c3f9e66bbe661ae2c0225491c72fedf4aed9ab4ff80297512bcbcb061b490"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -31,15 +31,6 @@
             "index": "pypi",
             "version": "==3.0.5"
         },
-        "django-basicauth": {
-            "hashes": [
-                "sha256:295adfbf6d30ab03d2000131da00f388e43d31f2ee7e9a0b51c4d7eb51896f7f",
-                "sha256:cb55997f6567d14c65859033503c5cd6f68c75e18f0061871f523c98c7d33195",
-                "sha256:d272a9b6b807d96b1e3b07ebf123bac90c1c72dada517ca9e1e4238a1236cdaf"
-            ],
-            "index": "pypi",
-            "version": "==0.5.2"
-        },
         "django-crispy-forms": {
             "hashes": [
                 "sha256:50032184708ce351e3c9f0008ac35d659d9d5973fa2db218066f2e0a76eb41d9",
@@ -55,6 +46,13 @@
             ],
             "index": "pypi",
             "version": "==2.1.2"
+        },
+        "django-recaptcha": {
+            "hashes": [
+                "sha256:567784963fd5400feaf92e8951d8dbbbdb4b4c48a76e225d4baa63a2c9d2cd8c"
+            ],
+            "index": "pypi",
+            "version": "==2.0.6"
         },
         "psycopg2": {
             "hashes": [
