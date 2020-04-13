@@ -8,7 +8,7 @@ from wichtelit.models import Wichtelgruppe, Wichtelmember
 
 
 class MemberForm(ModelForm):
-    budget = IntegerField(min_value=1)
+    budget = IntegerField(min_value=1, max_value=20)
     captcha = ReCaptchaField(widget=ReCaptchaV3)
 
     class Meta:
