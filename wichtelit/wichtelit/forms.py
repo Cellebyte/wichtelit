@@ -11,6 +11,30 @@ class MemberForm(ModelForm):
     budget = IntegerField(min_value=1, max_value=20)
     captcha = ReCaptchaField(widget=ReCaptchaV3)
 
+    def __init__(self, *args, **kwargs):
+        self.wichtelgruppe_id = kwargs.pop('wichtelgruppe_id')
+        super().__init__(*args, **kwargs)
+
+    def check_emailAddress(self, emailAddress):
+        if emailAddress is None:
+            raise ValidationError("Bidde eine Email angeben.")
+        try:
+            _ = Wichtelmember.objects.get(
+                wichtelgruppe__id=self.wichtelgruppe_id,
+                emailAddress=emailAddress
+            )
+            return False
+        except Wichtelmember.DoesNotExist:
+            return True
+
+    def clean_emailAddress(self):
+        emailAddress = self.cleaned_data.get("emailAddress")
+        if not self.check_emailAddress(emailAddress):
+            raise ValidationError(
+                "Tut mir Leid diese Email Adresse wurde in dieser Gruppe schon verwendet."
+            )
+        return emailAddress
+
     class Meta:
         model = Wichtelmember
         exclude = ('wichtelpartner', 'wichtelgruppe', 'id')

@@ -104,15 +104,22 @@ class Calculation(View):
 class MemberFormView(FormView):
     template_name = 'form_MemberForm.html'
     form_class = MemberForm
+    wichtelgruppe_id = None
+
+    def get_form_kwargs(self):
+        kwargs = super(MemberFormView, self).get_form_kwargs()
+        kwargs.update({'wichtelgruppe_id': self.wichtelgruppe_id})
+        return kwargs
 
     @staticmethod
     def get_group(wichtelgruppe_id):
         return Wichtelgruppe.objects.get(id=wichtelgruppe_id)
 
     def check_group_available(self, request):
+        self.wichtelgruppe_id = self.kwargs.pop('wichtelgruppe_id')
         try:
             self.wichtelgruppe = MemberFormView.get_group(
-                wichtelgruppe_id=self.kwargs.pop('wichtelgruppe_id')
+                wichtelgruppe_id=self.wichtelgruppe_id
             )
         except Wichtelgruppe.DoesNotExist:
             return render(request, 'error_NoMemberForm.html', status=400)
