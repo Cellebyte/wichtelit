@@ -1,5 +1,7 @@
-from wichtelit.models import Wichtelmember
 from django.core.mail import send_mail
+from django.utils.html import strip_tags
+
+from wichtelit.models import Wichtelmember
 
 
 def emailing(foo):
