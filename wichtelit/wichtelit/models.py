@@ -1,5 +1,14 @@
 import uuid
+from enum import Enum
+
 from django.db import models
+from django_enum_choices.fields import EnumChoiceField
+
+
+class Status(Enum):
+    ERSTELLT = 'erstellt'
+    GEWÜRFELT = 'gewürfelt'
+    EMAIL_VERSENDET = 'email_versendet'
 
 
 class Wichtelgruppe(models.Model):
@@ -7,6 +16,7 @@ class Wichtelgruppe(models.Model):
     budget = models.IntegerField(null=True, blank=True)
     ablaufdatum = models.DateField()
     wichteldatum = models.DateField()
+    status = EnumChoiceField(Status, default=Status.ERSTELLT)
 
 
 class Wichtelmember(models.Model):

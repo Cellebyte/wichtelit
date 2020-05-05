@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-8 alert alert-danger">
+    <h1 class="mt-2">Gruppe Non-Existent</h1>
+    <hr class="mt-0 mb-4" />
+        <p>
+            Diese Gruppe existiert leider nicht.
+        </p>
+        <a class="btn btn-danger" href="{% url 'wichteln' %}">Wichtelgruppe erstellen</a>
+    </div>
+</div>
+{% endblock %}
