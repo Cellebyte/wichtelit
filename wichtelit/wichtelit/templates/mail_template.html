@@ -3,9 +3,9 @@
 <body style="text-align:center;">
     {% include "wichtel.html" %}
 <h1>Frohes Wichteln</h1>
-
 <h3>Hallo {{ member.vorname }}</h3>
 <p>
+    {%- if current_status == status.EMAIL_VERSENDET -%}
     Das Ablaufdatum <b>{{ member.wichtelgruppe.ablaufdatum|date:"d.m.Y" }}</b> ist verstrichen.
     <br/>
     Die Gruppe wurde nun geschlossen.
@@ -13,8 +13,14 @@
     Ein Eintragen ist nun nicht mehr möglich,
     <br/>
     somit ist nun Wichtelzeit.
+    {%- endif -%}
+    {%- if current_status == status.LETZTE_EMAIL -%}
+    Das Wichteldatum <b>{{ member.wichtelgruppe.wichteldatum|date:"d.m.Y" }}</b> ist schon in 3 Wochen.
+    <br/>
+    Kümmere dich um ein Geschenk für deinen Wichtelpartner <a href="mailto:{{ member.wichtelpartner.email }}">{{ member.wichtelpartner.name }}</a>.
+    {%- endif -%}
 </p>
-<table align="center">
+<table style="margin: 0 auto;">
     <tr>
         <td>
             <i>Dein Partner:</i> 
@@ -28,7 +34,7 @@
             <i>Dein Budget:</i>
         </td>
         <td>
-            <strong>{{ member.budget }}</strong>
+            <strong>{{ member.budget }} €</strong>
         </td>
     </tr>
     <tr>
@@ -40,7 +46,6 @@
         </td>
     </tr>
 </table>
-
 <p style="text-align: right; margin-right: 10%;">
     <b>Liebe Grüße</b>
     <br>

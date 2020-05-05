@@ -18,7 +18,7 @@ class Email:
         help="The SMTP Hostname to use to send emails through."
     )
     port = environ.var(
-        default=465,
+        default=587,
         converter=int,
         help="The SMTP Port to use to send emails through."
     )
@@ -26,9 +26,14 @@ class Email:
         default=True,
         help="SMTP use TLS or not.")
     timeout = environ.var(
-        default=10,
+        default=60,
         converter=int,
         help="The Default Timeout for SMTP Connection establishment."
+    )
+    backend = environ.var(
+        default='django.core.mail.backends.smtp.EmailBackend',
+        converter=str,
+        help="The EMAIL Backend to use for django."
     )
     user = environ.group(User)
 

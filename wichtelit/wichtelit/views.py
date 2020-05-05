@@ -1,6 +1,6 @@
 import logging
 from copy import copy
-from datetime import date
+from datetime import date, timedelta
 
 from django import http
 from django.shortcuts import render
@@ -68,7 +68,7 @@ class GruppenView(FormView):
 class Calculation(View):
 
     def get(self, request, *args, **kwargs):
-        # Nimmt alle Gruppen die erstellt wurden und dessen ablaufdatum kleiner gleich heute ist.
+        # Nimmt alle Gruppen die erstellt wurden und dessen ablaufdatum kleiner heute ist.
         gruppen = Wichtelgruppe.objects.filter(
             status=Status.ERSTELLT,
             ablaufdatum__lt=date.today()
@@ -93,12 +93,30 @@ class Emailing(View):
         # Direkt nachdem gewürfelt wurde.
         gruppen = Wichtelgruppe.objects.filter(
             status=Status.GEWÜRFELT,
-            ablaufdatum__lte=date.today()
+            ablaufdatum__lt=date.today()
         )
         for gruppe in gruppen:
             members = Wichtelmember.objects.filter(wichtelgruppe=gruppe)
             if self.email.senden(list(members)):
                 gruppe.status = Status.EMAIL_VERSENDET
+                gruppe.save()
+
+        return http.HttpResponse("true")
+
+
+class EmailingLastReminder(Emailing):
+
+    def get(self, request, *args, **kwargs):
+        # Wenn das Wichteldatum in drei Wochen liegt.
+        gruppen = Wichtelgruppe.objects.filter(
+            status=Status.EMAIL_VERSENDET,
+            ablaufdatum__lt=date.today(),
+            wichteldatum__lt=date.today() + timedelta(weeks=3)
+        )
+        for gruppe in gruppen:
+            members = Wichtelmember.objects.filter(wichtelgruppe=gruppe)
+            if self.email.senden(list(members), status=Status.LETZTE_EMAIL):
+                gruppe.status = Status.LETZTE_EMAIL
                 gruppe.save()
 
         return http.HttpResponse("true")

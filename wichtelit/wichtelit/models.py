@@ -27,6 +27,7 @@ class Wichtelmember(models.Model):
     emailAdresse = models.EmailField(max_length=40)
     wichtelgruppe = models.ForeignKey(Wichtelgruppe, on_delete=models.CASCADE)
     wichtelpartner = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
+    status = EnumChoiceField(Status, default=Status.ERSTELLT)
 
     @property
     def budget(self) -> int:
