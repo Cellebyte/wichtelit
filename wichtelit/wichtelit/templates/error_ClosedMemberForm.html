@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-8 alert alert-info">
+    <h1 class="mt-2">Gruppe Geschlossen</h1>
+    <hr class="mt-0 mb-4" />
+        <p>
+            Tut mir Leid. Hier kannst du leider nicht mehr mit wichteln.
+            Erstelle deine eigene Wichtelgruppe hier!
+        </p>
+        <a class="btn btn-info" href="{% url 'wichteln' %}">Wichtelgruppe erstellen</a>
+    </div>
+</div>
+{% endblock %}

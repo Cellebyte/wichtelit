@@ -13,17 +13,24 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.urls import path
 from . import views
-from .logic.email import emailing
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', views.HomeView.as_view(), name='home'),
     path('impressum/', views.ImprintView.as_view(), name='impressum'),
-    path('wichteln/<uuid:wichtelgruppe_id>', views.MemberView.as_view(), name='member'),
+    path(
+        'wichteln/<uuid:wichtelgruppe_id>',
+        views.MemberFormView.as_view(),
+        name='memberform'
+    ),
     path('wichteln/', views.GruppenView.as_view(), name='wichteln'),
-    path('sendemail', emailing, name="email"),
-    # path('wichteln/created/', view.)
+    path('members/sendemail', views.Emailing.as_view(), name="sendemail"),
+    path('members/calculate', views.Calculation.as_view(), name='calculate'),
+    # path('members', views.return_member, name='members'),
+    path(
+        'wichteln/<uuid:wichtelgruppe_id>/created',
+        views.CreatedMemberView.as_view(),
+        name='created'
+    )
 ]

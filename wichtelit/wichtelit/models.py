@@ -1,5 +1,15 @@
 import uuid
+from enum import Enum
+
 from django.db import models
+from django_enum_choices.fields import EnumChoiceField
+
+
+class Status(Enum):
+    ERSTELLT = 'erstellt'
+    GEWÜRFELT = 'gewürfelt'
+    EMAIL_VERSENDET = 'email_versendet'
+    LETZTE_EMAIL = 'letzte_email'
 
 
 class Wichtelgruppe(models.Model):
@@ -7,6 +17,7 @@ class Wichtelgruppe(models.Model):
     budget = models.IntegerField(null=True, blank=True)
     ablaufdatum = models.DateField()
     wichteldatum = models.DateField()
+    status = EnumChoiceField(Status, default=Status.ERSTELLT)
 
 
 class Wichtelmember(models.Model):
@@ -17,5 +28,14 @@ class Wichtelmember(models.Model):
     wichtelgruppe = models.ForeignKey(Wichtelgruppe, on_delete=models.CASCADE)
     wichtelpartner = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
 
-    # def __str__(self) ->str:
-    #     return f"Id: {self.id} Emailadresse: {self.emailAdresse}"
+    @property
+    def budget(self) -> int:
+        return self.wichtelgruppe.budget / len(
+            Wichtelmember.objects.filter(
+                wichtelgruppe=self.wichtelgruppe
+            )
+        )
+
+    @property
+    def name(self) -> str:
+        return f"{self.vorname} {self.nachname}"

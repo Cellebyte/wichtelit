@@ -1,10 +1,50 @@
 <!DOCTYPE html>
 <html>
-<body>
+<body style="text-align:center;">
+    {% include "wichtel.html" %}
+<h1>Frohes Wichteln</h1>
 
-<h1>My First Heading</h1>
+<h3>Hallo {{ member.vorname }}</h3>
+<p>
+    Das Ablaufdatum <b>{{ member.wichtelgruppe.ablaufdatum|date:"d.m.Y" }}</b> ist verstrichen.
+    <br/>
+    Die Gruppe wurde nun geschlossen.
+    <br/>
+    Ein Eintragen ist nun nicht mehr möglich,
+    <br/>
+    somit ist nun Wichtelzeit.
+</p>
+<table align="center">
+    <tr>
+        <td>
+            <i>Dein Partner:</i> 
+        </td>
+        <td style="padding-left: 2%;">
+            <a href="mailto:{{ member.wichtelpartner.email }}">{{ member.wichtelpartner.name }}</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <i>Dein Budget:</i>
+        </td>
+        <td>
+            <strong>{{ member.budget }}</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <i>Dein Wichteldatum:</i>
+        </td>
+        <td>
+            <strong>{{ member.wichtelgruppe.ablaufdatum|date:"d.m.Y" }}</strong>
+        </td>
+    </tr>
+</table>
 
-<p>My first paragraph.</p>
-
+<p style="text-align: right; margin-right: 10%;">
+    <b>Liebe Grüße</b>
+    <br>
+    <p style="text-align: right; margin-right: 5%;">Die freundliche <i>Wichtelit</i> APP</p>
+</p>
 </body>
 </html>

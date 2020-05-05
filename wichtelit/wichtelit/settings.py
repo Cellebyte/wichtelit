@@ -11,22 +11,45 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from .secret import EMAIL_PASSWORD
+import environ
+from .config import WichtelitConfig
+config = environ.to_config(WichtelitConfig)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '---cjz#uz(&br66^fis#p+(x1!wpqt&%nr#ny_!@-09#*jwk+m'
-
+SECRET_KEY = config.secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': False,
+        },
+    },
+}
 
 # Application definition
 
@@ -37,7 +60,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'wichtelit',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +76,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'wichtelit.urls'
+
+RECAPTCHA_REQUIRED_SCORE = config.captcha.score
+RECAPTCHA_PRIVATE_KEY = config.captcha.private_key
+RECAPTCHA_PUBLIC_KEY = config.captcha.public_key
+
 
 TEMPLATES = [
     {
@@ -74,10 +104,23 @@ WSGI_APPLICATION = 'wichtelit.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'OPTIONS': {
+#             'timeout': 20,
+#         },
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': config.database.engine,
+        'NAME': config.database.name,
+        'USER': config.database.user.name,
+        'PASSWORD': config.database.user.password,
+        'HOST': config.database.host,
+        'PORT': config.database.port,
     }
 }
 
@@ -120,9 +163,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-EMAIL_HOST = 'mxf9a9.netcup.net'
-EMAIL_PORT = '465'
-EMAIL_HOST_USER = 'wichtelit@1kbyte.de'
-EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
-EMAIL_USE_TLS = True
-EMAIL_TIMEOUT = 300
+# Email Configuration
+# https://docs.djangoproject.com/en/3.0/topics/email/
+
+EMAIL_HOST = config.email.host
+EMAIL_PORT = config.email.port
+EMAIL_HOST_USER = config.email.user.name
+EMAIL_HOST_PASSWORD = config.email.user.password
+EMAIL_USE_TLS = config.email.tls
+EMAIL_TIMEOUT = config.email.timeout

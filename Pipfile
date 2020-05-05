@@ -9,6 +9,16 @@ autopep8 = "*"
 
 [packages]
 django = "*"
+django-crispy-forms = "*"
+psycopg2 = "*"
+django-enum-choices = "*"
+django-recaptcha = "*"
+environ-config = "*"
 
 [requires]
 python_version = "3.8"
+
+[scripts]
+dev = 'python wichtelit/manage.py runserver'
+makemigrations = 'python wichtelit/manage.py makemigrations'
+migrate = 'python wichtelit/manage.py migrate'
