@@ -11,8 +11,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+
 import environ
+
 from .config import WichtelitConfig
+
 config = environ.to_config(WichtelitConfig)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

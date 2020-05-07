@@ -3,16 +3,16 @@ from copy import copy
 from datetime import date, timedelta
 
 from django import http
+from django.conf import settings
 from django.shortcuts import render
 from django.views.generic.base import TemplateView, View
 from django.views.generic.edit import FormView
 
-from .logic.lostopf import LosTopf
-from .logic.email import Email
 from wichtelit.forms import GruppenForm, MemberForm
 from wichtelit.models import Status, Wichtelgruppe, Wichtelmember
 
-from django.conf import settings
+from .logic.email import Email
+from .logic.lostopf import LosTopf
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)

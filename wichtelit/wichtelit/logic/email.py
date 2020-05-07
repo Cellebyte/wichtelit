@@ -6,10 +6,8 @@ from typing import List
 
 from django.core import mail
 from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-from ..models import Status
 
-from ..models import Wichtelmember
+from ..models import Status, Wichtelmember
 
 logger = logging.getLogger(__name__)
 
