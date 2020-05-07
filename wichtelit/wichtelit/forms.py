@@ -37,7 +37,7 @@ class MemberForm(ModelForm):
 
     class Meta:
         model = Wichtelmember
-        exclude = ('wichtelpartner', 'wichtelgruppe', 'id')
+        exclude = ('wichtelpartner', 'wichtelgruppe', 'id', 'status')
 
 
 class GruppenForm(ModelForm):

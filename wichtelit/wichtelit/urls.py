@@ -17,16 +17,19 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('members/cleanup', views.Cleanup.as_view(), name='cleanup'),
+    path('members/calculate', views.Calculation.as_view(), name='calculate'),
+    path('members/sendmail', views.Emailing.as_view(), name="sendmail"),
+    path('members/sendlastmail', views.EmailingLastReminder.as_view(), name="sendlastmail"),
     path('', views.HomeView.as_view(), name='home'),
     path('impressum/', views.ImprintView.as_view(), name='impressum'),
+    path('datenschutz/', views.DataSafety.as_view(), name='datenschutz'),
     path(
         'wichteln/<uuid:wichtelgruppe_id>',
         views.MemberFormView.as_view(),
         name='memberform'
     ),
     path('wichteln/', views.GruppenView.as_view(), name='wichteln'),
-    path('members/sendemail', views.Emailing.as_view(), name="sendemail"),
-    path('members/calculate', views.Calculation.as_view(), name='calculate'),
     # path('members', views.return_member, name='members'),
     path(
         'wichteln/<uuid:wichtelgruppe_id>/created',

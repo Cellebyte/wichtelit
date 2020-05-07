@@ -20,6 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+CONTACT = config.contact
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 

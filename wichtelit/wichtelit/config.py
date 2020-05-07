@@ -7,7 +7,44 @@ class User:
         converter=str,
         help="The Username to use."
     )
-    password = environ.var(converter=str, help="The Password for the user to use.")
+    password = environ.var(
+        converter=str,
+        help="The Password for the user to use."
+    )
+
+
+@environ.config
+class Contact:
+    dsb_email = environ.var(
+        default="dsb@example.com",
+        converter=str,
+        help="The Email Address for the DSB."
+    )
+    email = environ.var(
+        default="admin@example.com",
+        converter=str,
+        help="The Email Address for contact."
+    )
+    zip_code = environ.var(
+        default="12345",
+        converter=str,
+        help="The ZIP Code for the address."
+    )
+    city = environ.var(
+        default="Musterstadt",
+        converter=str,
+        help="The City of the address."
+    )
+    street = environ.var(
+        default="Musterstraße 1",
+        converter=str,
+        help="The Street of the address."
+    )
+    name = environ.var(
+        default="Wichtelit Admin",
+        converter=str,
+        help="The Name of the Responsible Site Owner."
+    )
 
 
 @environ.config
@@ -94,3 +131,4 @@ class WichtelitConfig:
     captcha = environ.group(Captcha)
     database = environ.group(Database)
     email = environ.group(Email)
+    contact = environ.group(Contact)

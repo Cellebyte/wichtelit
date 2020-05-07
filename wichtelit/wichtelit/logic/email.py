@@ -15,7 +15,8 @@ logger = logging.getLogger(__name__)
 
 
 class Email(object):
-    email_template = 'mail_template.html'
+    email_template_html = 'mail_template.html'
+    email_template_txt = 'mail_template.txt'
     email_subject_prefix = '[Wichtelit] Dein Wichtelpartner für den'
 
     def __init__(self, email: str) -> Email:
@@ -30,15 +31,19 @@ class Email(object):
                 else:
                     subject = f'{self.email_subject_prefix} {member.wichtelgruppe.wichteldatum}'
                     html_message = render_to_string(
-                        self.email_template,
+                        self.email_template_html,
                         {
                             'member': member,
-                            'current_status': status,
-                            'status': Status
+                            'current_status': status
                         }
                     )
-                    plain_message = strip_tags(html_message).replace(
-                        '&#160;', '')
+                    plain_message = render_to_string(
+                        self.email_template_txt,
+                        {
+                            'member': member,
+                            'current_status': status
+                        }
+                    )
                     logger.debug(plain_message)
                     from_email = f'WitchtelIt <{self.email}>'
                     to = f'{member.emailAdresse}'

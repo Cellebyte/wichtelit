@@ -19,10 +19,12 @@ logger = logging.getLogger(__name__)
 
 
 class MyTemplateView(TemplateView):
+    contact = settings.CONTACT
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['active'] = self.name
+        context['contact'] = self.contact
         return context
 
 
@@ -34,6 +36,11 @@ class HomeView(MyTemplateView):
 class ImprintView(MyTemplateView):
     name = 'impressum'
     template_name = 'impressum.html'
+
+
+class DataSafety(MyTemplateView):
+    name = 'datenschutz'
+    template_name = 'datenschutz.html'
 
 
 class CreatedMemberView(MyTemplateView):
@@ -118,6 +125,23 @@ class EmailingLastReminder(Emailing):
             if self.email.senden(list(members), status=Status.LETZTE_EMAIL):
                 gruppe.status = Status.LETZTE_EMAIL
                 gruppe.save()
+
+        return http.HttpResponse("true")
+
+
+class Cleanup(View):
+
+    def get(self, request, *args, **kwargs):
+        gruppen = Wichtelgruppe.objects.filter(
+            status=Status.LETZTE_EMAIL,
+            ablaufdatum__lt=date.today(),
+            wichteldatum__lt=date.today() + timedelta(days=3)
+        )
+        members = Wichtelmember.objects.filter(
+            wichtelgruppe__in=gruppen
+        )
+        members.delete()
+        gruppen.delete()
 
         return http.HttpResponse("true")
 
