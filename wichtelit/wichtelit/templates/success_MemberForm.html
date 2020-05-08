@@ -11,7 +11,7 @@
             <hr class="mt-0 mb-4"/>
             <a href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}</a>
         </p>
-        <a class="btn btn-success" href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">Weiteres Gruppenmitglied anlegen.</a>
+        <a type="button" class="btn btn-outline-dark btn-lg btn-block" href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">Weiteres Gruppenmitglied anlegen.</a>
     </div>
 </div>
 {% endblock %}
