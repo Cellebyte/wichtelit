@@ -6,11 +6,12 @@ verify_ssl = true
 [dev-packages]
 flake8 = "*"
 autopep8 = "*"
+gunicorn = "*"
 
 [packages]
 django = "*"
 django-crispy-forms = "*"
-psycopg2 = "*"
+psycopg2-binary = "*"
 django-enum-choices = "*"
 django-recaptcha = "*"
 environ-config = "*"
