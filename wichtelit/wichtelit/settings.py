@@ -171,6 +171,7 @@ STATIC_URL = '/static/'
 # Email Configuration
 # https://docs.djangoproject.com/en/3.0/topics/email/
 
+print(config.email.user.password)
 
 EMAIL_BACKEND = config.email.backend
 EMAIL_HOST = config.email.host

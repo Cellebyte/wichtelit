@@ -5,6 +5,7 @@ from datetime import date, timedelta
 from django import http
 from django.conf import settings
 from django.shortcuts import render
+
 from django.views.generic.base import TemplateView, View
 from django.views.generic.edit import FormView
 

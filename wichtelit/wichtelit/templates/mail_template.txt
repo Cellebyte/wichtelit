@@ -1,3 +1,4 @@
+{% load my_filters %}
 {% include "wichtel.txt" %}
 
 
@@ -23,7 +24,7 @@ Hallo {{ member.vorname }},
               {{ member.wichtelpartner.name }} <{{ member.wichtelpartner.emailAdresse }}>
 
             Dein Budget:
-              {{ member.budget }} €
+              {{ member.budget | comma }} €
 
             Dein Wichteldatum:
               {{ member.wichtelgruppe.ablaufdatum|date:"d.m.Y" }}

@@ -1,3 +1,4 @@
+{% load my_filters %}
 <!DOCTYPE html>
 <html>
 <body style="text-align:center;">
@@ -31,7 +32,7 @@
             <i>Dein Budget:</i>
         </td>
         <td>
-            <strong>{{ member.budget }} €</strong>
+            <strong>{{ member.budget | comma }} €</strong>
         </td>
     </tr>
     <tr>

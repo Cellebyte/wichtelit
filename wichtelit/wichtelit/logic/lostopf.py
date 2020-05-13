@@ -2,7 +2,7 @@ import logging
 import secrets
 from typing import List
 
-from ..models import Wichtelmember
+from ..models import Status, Wichtelmember
 
 logger = logging.getLogger(__name__)
 
@@ -15,14 +15,15 @@ class LosTopf(object):
             not_in_list = False
             loszieher = members[index]
             try:
-                lostopf.remove(loszieher.id)
+                lostopf.remove(loszieher)
             except ValueError:
                 not_in_list = True
             loszieher.wichtelpartner = secrets.choice(
                 lostopf
             )
-            logger.info(
-                f'{loszieher.emailAdresse} hat partner {loszieher.wichtelpartner.emailAdresse}')
+            logger.debug(
+                f'{loszieher.emailAdresse} --> {loszieher.wichtelpartner.emailAdresse}')
+            loszieher.status = Status.GEWÜRFELT
             loszieher.save()
             lostopf.remove(loszieher.wichtelpartner)
             if not not_in_list:
