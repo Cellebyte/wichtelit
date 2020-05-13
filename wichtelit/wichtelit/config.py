@@ -5,6 +5,8 @@ def string_none_converter(value):
     if value is None:
         return None
     return str(value)
+
+
 @environ.config
 class User:
     name = environ.var(
