@@ -95,7 +95,7 @@ class Calculation(View):
 
 
 class Emailing(View):
-    email = Email(email=settings.EMAIL_HOST_USER)
+    email = Email()
 
     def get(self, request, *args, **kwargs):
         # Direkt nachdem gewürfelt wurde.

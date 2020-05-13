@@ -1,6 +1,10 @@
 import environ
 
 
+def string_none_converter(value):
+    if value is None:
+        return None
+    return str(value)
 @environ.config
 class User:
     name = environ.var(
@@ -8,8 +12,9 @@ class User:
         help="The Username to use."
     )
     password = environ.var(
-        converter=str,
-        help="The Password for the user to use."
+        default=None,
+        converter=string_none_converter,
+        help="The Password for the user to use.",
     )
 
 

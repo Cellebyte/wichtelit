@@ -171,12 +171,12 @@ STATIC_URL = '/static/'
 # Email Configuration
 # https://docs.djangoproject.com/en/3.0/topics/email/
 
-print(config.email.user.password)
-
 EMAIL_BACKEND = config.email.backend
 EMAIL_HOST = config.email.host
 EMAIL_PORT = config.email.port
-EMAIL_HOST_USER = config.email.user.name
-EMAIL_HOST_PASSWORD = config.email.user.password
+EMAIL_SUBJECT_PREFIX = '[Wichtelit] '
+EMAIL_HOST_USER = config.email.user.name if config.email.user.password is not None else None
+EMAIL_HOST_PASSWORD = config.email.user.password if config.email.user.password is not None else None
 EMAIL_USE_TLS = config.email.tls
 EMAIL_TIMEOUT = config.email.timeout
+DEFAULT_FROM_EMAIL = f"WichtelIt <{config.email.user.name}>"

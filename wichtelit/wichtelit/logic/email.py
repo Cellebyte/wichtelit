@@ -17,9 +17,6 @@ class Email(object):
     email_template_txt = 'mail_template.txt'
     email_subject_prefix = '[Wichtelit] Dein Wichtelpartner für den'
 
-    def __init__(self, email: str) -> Email:
-        self.email = email
-
     def senden(self, members: List[Wichtelmember], status=Status.EMAIL_VERSENDET):
         return_values = []
         with mail.get_connection() as connection:
@@ -43,14 +40,12 @@ class Email(object):
                         }
                     )
                     logger.debug(plain_message)
-                    from_email = f'WitchtelIt <{self.email}>'
                     to = f'{member.emailAdresse}'
                     try:
                         email = mail.EmailMultiAlternatives(
                             subject,
                             plain_message,
-                            from_email,
-                            [to],
+                            to=[to],
                             connection=connection
                         )
                         email.attach_alternative(
