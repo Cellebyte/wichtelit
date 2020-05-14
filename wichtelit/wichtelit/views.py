@@ -1,25 +1,31 @@
 import logging
-import secrets
 from copy import copy
-from datetime import date
+from datetime import date, timedelta
 
 from django import http
+from django.conf import settings
 from django.shortcuts import render
+
 from django.views.generic.base import TemplateView, View
 from django.views.generic.edit import FormView
 
 from wichtelit.forms import GruppenForm, MemberForm
 from wichtelit.models import Status, Wichtelgruppe, Wichtelmember
 
+from .logic.email import Email
+from .logic.lostopf import LosTopf
+
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
 
 class MyTemplateView(TemplateView):
+    contact = settings.CONTACT
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['active'] = self.name
+        context['contact'] = self.contact
         return context
 
 
@@ -31,6 +37,11 @@ class HomeView(MyTemplateView):
 class ImprintView(MyTemplateView):
     name = 'impressum'
     template_name = 'impressum.html'
+
+
+class DataSafety(MyTemplateView):
+    name = 'datenschutz'
+    template_name = 'datenschutz.html'
 
 
 class CreatedMemberView(MyTemplateView):
@@ -64,29 +75,11 @@ class GruppenView(FormView):
 
 class Calculation(View):
 
-    def lostopf(self, members, lostopf):
-        for index in range(len(members)):
-            not_in_list = False
-            loszieher = members[index]
-            try:
-                lostopf.remove(loszieher.id)
-            except ValueError:
-                not_in_list = True
-            loszieher.wichtelpartner = secrets.choice(
-                lostopf
-            )
-            logger.info(
-                f'{loszieher.emailAddress} hat partner {loszieher.wichtelpartner.emailAddress}')
-            loszieher.save()
-            lostopf.remove(loszieher.wichtelpartner)
-            if not not_in_list:
-                lostopf.append(loszieher)
-
     def get(self, request, *args, **kwargs):
-        # Nimmt alle Gruppen die erstellt wurden und dessen ablaufdatum kleiner gleich heute ist.
+        # Nimmt alle Gruppen die erstellt wurden und dessen ablaufdatum kleiner heute ist.
         gruppen = Wichtelgruppe.objects.filter(
             status=Status.ERSTELLT,
-            ablaufdatum__lte=date.today()
+            ablaufdatum__lt=date.today()
         )
         for gruppe in gruppen:
             members = Wichtelmember.objects.filter(wichtelgruppe=gruppe)
@@ -95,9 +88,62 @@ class Calculation(View):
                 logger.warning(f'{gruppe.id} hat weniger als 2 member.')
                 continue
             else:
-                self.lostopf(list(members), list(lostopf))
+                LosTopf.ziehen(list(members), list(lostopf))
             gruppe.status = Status.GEWÜRFELT
             gruppe.save()
+        return http.HttpResponse("true")
+
+
+class Emailing(View):
+    email = Email()
+
+    def get(self, request, *args, **kwargs):
+        # Direkt nachdem gewürfelt wurde.
+        gruppen = Wichtelgruppe.objects.filter(
+            status=Status.GEWÜRFELT,
+            ablaufdatum__lt=date.today()
+        )
+        for gruppe in gruppen:
+            members = Wichtelmember.objects.filter(wichtelgruppe=gruppe)
+            if self.email.senden(list(members)):
+                gruppe.status = Status.EMAIL_VERSENDET
+                gruppe.save()
+
+        return http.HttpResponse("true")
+
+
+class EmailingLastReminder(Emailing):
+
+    def get(self, request, *args, **kwargs):
+        # Wenn das Wichteldatum in drei Wochen liegt.
+        gruppen = Wichtelgruppe.objects.filter(
+            status=Status.EMAIL_VERSENDET,
+            ablaufdatum__lt=date.today(),
+            wichteldatum__lt=date.today() + timedelta(weeks=3)
+        )
+        for gruppe in gruppen:
+            members = Wichtelmember.objects.filter(wichtelgruppe=gruppe)
+            if self.email.senden(list(members), status=Status.LETZTE_EMAIL):
+                gruppe.status = Status.LETZTE_EMAIL
+                gruppe.save()
+
+        return http.HttpResponse("true")
+
+
+class Cleanup(View):
+
+    def get(self, request, *args, **kwargs):
+        gruppen = Wichtelgruppe.objects.filter(
+            status=Status.LETZTE_EMAIL,
+            ablaufdatum__lt=date.today(),
+            wichteldatum__lt=date.today() + timedelta(days=3)
+        )
+        members = Wichtelmember.objects.filter(
+            wichtelgruppe__in=gruppen
+        )
+        members.delete()
+        gruppen.delete()
+
         return http.HttpResponse("true")
 
 
@@ -123,7 +169,7 @@ class MemberFormView(FormView):
             )
         except Wichtelgruppe.DoesNotExist:
             return render(request, 'error_NoMemberForm.html', status=400)
-        if date.today() >= self.wichtelgruppe.ablaufdatum:
+        if date.today() > self.wichtelgruppe.ablaufdatum:
             return render(request, 'error_ClosedMemberForm.html', status=403)
         return False
 

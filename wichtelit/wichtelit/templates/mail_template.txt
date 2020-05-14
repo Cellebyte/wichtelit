@@ -1,0 +1,35 @@
+{% load my_filters %}
+{% include "wichtel.txt" %}
+
+
+                                          Frohes Wichteln
+
+
+Hallo {{ member.vorname }},
+
+{% if current_status.value == "email_versendet" %}
+    Das Ablaufdatum {{ member.wichtelgruppe.ablaufdatum|date:"d.m.Y" }} ist verstrichen.
+
+    Die Gruppe wurde nun geschlossen.
+    Ein Eintragen ist nun nicht mehr möglich,
+    somit ist nun Wichtelzeit.
+{% elif current_status.value == "letzte_email" %}
+    Das Wichteldatum {{ member.wichtelgruppe.wichteldatum|date:"d.m.Y" }} ist schon in 3 Wochen.
+
+    Kümmere dich um ein Geschenk für deinen Wichtelpartner 
+      {{ member.wichtelpartner.name }} <{{ member.wichtelpartner.emailAdresse }}>.
+{% endif %}
+---------------------------------------------------------------------------------------------------
+            Dein Partner:
+              {{ member.wichtelpartner.name }} <{{ member.wichtelpartner.emailAdresse }}>
+
+            Dein Budget:
+              {{ member.budget | comma }} €
+
+            Dein Wichteldatum:
+              {{ member.wichtelgruppe.ablaufdatum|date:"d.m.Y" }}
+
+---------------------------------------------------------------------------------------------------
+                                                                      Liebe Grüße
+
+                                                                      Die freundliche Wichtelit APP

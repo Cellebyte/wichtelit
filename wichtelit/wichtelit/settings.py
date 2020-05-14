@@ -11,23 +11,37 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from .secret import DB_PASSWORD, CAPTCHA_PRIVATE_KEY, CAPTCHA_PUBLIC_KEY
+
+import environ
+
+from .config import WichtelitConfig
+
+try:
+    config = environ.to_config(WichtelitConfig)
+except environ.exceptions.MissingEnvValueError as e:
+    print(f"Missing Key: {e}")
+    print(WichtelitConfig.generate_help(display_defaults=True))
+    exit(1)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+CONTACT = config.contact
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '---cjz#uz(&br66^fis#p+(x1!wpqt&%nr#ny_!@-09#*jwk+m'
-
+SECRET_KEY = config.secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config.debug
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    config.fqdn,
+    "localhost"
+]
 
 LOGGING = {
     'version': 1,
@@ -39,7 +53,7 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],
-        'level': 'WARNING',
+        'level': 'DEBUG',
     },
     'loggers': {
         'django': {
@@ -76,9 +90,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'wichtelit.urls'
 
-RECAPTCHA_REQUIRED_SCORE = 0.85
-RECAPTCHA_PRIVATE_KEY = CAPTCHA_PRIVATE_KEY or '6LfUFukUAAAAANboVLwQASuXQrw6ayFsfwFFQtRq'
-RECAPTCHA_PUBLIC_KEY = CAPTCHA_PUBLIC_KEY or '6LfUFukUAAAAAASAapQwhYeERyh532DDYQHHHER7'
+RECAPTCHA_REQUIRED_SCORE = config.captcha.score
+RECAPTCHA_PRIVATE_KEY = config.captcha.private_key
+RECAPTCHA_PUBLIC_KEY = config.captcha.public_key
 
 
 TEMPLATES = [
@@ -114,12 +128,12 @@ WSGI_APPLICATION = 'wichtelit.wsgi.application'
 # }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'wichtelit',
-        'USER': 'wichtelit',
-        'PASSWORD': DB_PASSWORD,
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': config.database.engine,
+        'NAME': config.database.name,
+        'USER': config.database.user.name,
+        'PASSWORD': config.database.user.password,
+        'HOST': config.database.host,
+        'PORT': config.database.port,
     }
 }
 
@@ -161,3 +175,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Email Configuration
+# https://docs.djangoproject.com/en/3.0/topics/email/
+
+EMAIL_BACKEND = config.email.backend
+EMAIL_HOST = config.email.host
+EMAIL_PORT = config.email.port
+EMAIL_SUBJECT_PREFIX = '[Wichtelit] '
+EMAIL_HOST_USER = config.email.user.name if config.email.user.password is not None else None
+EMAIL_HOST_PASSWORD = config.email.user.password if config.email.user.password is not None else None
+EMAIL_USE_TLS = config.email.tls
+EMAIL_TIMEOUT = config.email.timeout
+DEFAULT_FROM_EMAIL = f"WichtelIt <{config.email.user.name}>"

@@ -6,7 +6,7 @@
     <hr class="mt-0 mb-4" />
     <form method="post">{% csrf_token %}
         {{ form|crispy}}
-        <input type="submit" value="Absenden">
+        <input class="btn btn-outline-success btn-lg btn-block" type="submit" value="Absenden"/>
     </form>
 </div>
 {% endblock %}
