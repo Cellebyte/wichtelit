@@ -16,7 +16,12 @@ import environ
 
 from .config import WichtelitConfig
 
-config = environ.to_config(WichtelitConfig)
+try:
+    config = environ.to_config(WichtelitConfig)
+except environ.exceptions.MissingEnvValueError as e:
+    print(f"Missing Key: {e}")
+    print(WichtelitConfig.generate_help(display_defaults=True))
+    exit(1)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
