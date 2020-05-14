@@ -9,12 +9,12 @@
             Du hast dich Erfolgreich in der Wichtelgruppe (<a
                 href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">{{ wichtelgruppe.id }}</a>) registriert.
             Um andere einzuladen teile den folgenden Link.
-            Der Link is gültig bis zum {{ wichtelgruppe.ablaufdatum|date:"d.m.Y" }}.
+            Der Link ist gültig bis zum {{ wichtelgruppe.ablaufdatum|date:"d.m.Y" }}.
             <hr class="mt-0 mb-4 col-12" />
-            <a
+            <a style="word-wrap: break-word;"
                 href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}</a>
         </p>
-        <a type="button" class="btn btn-outline-dark btn-lg btn-block"
+        <a type="button" class="btn btn-outline-dark btn-lg btn-block" style="margin-bottom:4px;white-space: normal;"
             href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">Weiteres Gruppenmitglied anlegen.</a>
     </div>
 </div>
