@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="col-8">
-    <h1 class="mt-2">Wichtelgruppenmitglied anlegen</h1>
-    <hr class="mt-0 mb-4" />
-    <form method="post">{% csrf_token %}
-        {{ form|crispy}}
-        <input class="btn btn-outline-success btn-lg btn-block" type="submit" value="Absenden"/>
-    </form>
+<div class="col-8 col-xs-12">
+    <div class="row">
+        <h1 class="mt-2 col-12">Wichtelgruppenmitglied anlegen</h1>
+        <hr class="mt-0 mb-4 col-12" />
+        <div class="col-12">
+            <form method="post">{% csrf_token %}
+                {{ form|crispy}}
+                <input class="btn btn-outline-success btn-lg btn-block" style="margin-bottom:4px;white-space: normal;"
+                    type="submit" value="Absenden" />
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

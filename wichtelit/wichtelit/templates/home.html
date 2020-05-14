@@ -1,20 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="col-8">
-    <h1 class="mt-2">Home</h1>
-    <hr class="mt-0 mb-4" />
-    <div class="jumbotron">
-        <h1>Wichteln</h1>
-        <p>
-            Indem du unten auf den Wichtelgruppe erstellen Knopf drückst, kannst du eine Wichtelgruppe
-            anlegen. Danach wirst du auf eine Webseite weitergeleitet. Auf dieser kannst du dich initial eintragen.
-            Kopiere die URL oben aus der Adresszeile deines Browsers, um auch andere Leute in deine Wichtelgruppe
-            einzuladen.
-        </p>
-        <br />
-        <br />
-        <a type="button" class="btn btn-success btn-lg btn-block" href="{% url 'wichteln' %}">Wichtelgruppe
-            erstellen</a>
+<div class="col-8 col-xs-12">
+    <div class="row">
+        <h1 class="mt-2 col-12">Home</h1>
+        <hr class="mt-0 mb-4 col-12" />
+        <div class="jumbotron col-12">
+            <h1>Wichteln</h1>
+            <p>
+                Indem du unten auf den Wichtelgruppe erstellen Knopf drückst, kannst du eine Wichtelgruppe
+                anlegen. Danach wirst du auf eine Webseite weitergeleitet. Auf dieser kannst du dich initial eintragen.
+                Kopiere die URL oben aus der Adresszeile deines Browsers, um auch andere Leute in deine Wichtelgruppe
+                einzuladen.
+            </p>
+            <br />
+            <br />
+            <a type="button" class="btn btn-success btn-lg btn-block" style="margin-bottom:4px;white-space: normal;" href="{% url 'wichteln' %}">Wichtelgruppe
+                erstellen</a>
+        </div>
     </div>
 </div>
 {% endblock %}
