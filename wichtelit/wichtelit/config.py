@@ -139,6 +139,11 @@ class WichtelitConfig:
         default=True,
         help="This enables the development mode."
     )
+    fqdn = environ.var(
+        default="wichtelit",
+        converter=str,
+        help="Adding the Allowed host from outside."
+    )
     captcha = environ.group(Captcha)
     database = environ.group(Database)
     email = environ.group(Email)
