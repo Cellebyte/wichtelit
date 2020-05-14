@@ -1,0 +1,27 @@
+{% load my_filters %}
+<!DOCTYPE html>
+<html>
+<body style="text-align:center;">
+    {% include "wichtel.html" %}
+<h1>Frohes Einladen</h1>
+<h3>Hallo {{ member.vorname }}</h3>
+<p>
+    Mit diesem Link kannst du neue Leute in deine Wichtelgruppe einladen.
+</p>
+<table style="margin: 0 auto;">
+    <tr>
+        <td>
+            <i>Dein Link:</i> 
+        </td>
+        <td style="padding-left: 2%;">
+            <a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'memberform' wichtelgruppe_id=member.wichtelgruppe.id %}">{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'memberform' wichtelgruppe_id=member.wichtelgruppe.id %}</a>
+        </td>
+    </tr>
+</table>
+<p style="text-align: right; margin-right: 10%;">
+    <b>Liebe Grüße</b>
+    <br>
+    <p style="text-align: right; margin-right: 5%;">Die freundliche <i>Wichtelit</i> APP</p>
+</p>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% load my_filters %}
+{% include "wichtel.txt" %}
+
+
+                                          Frohes Einladen
+
+
+Hallo {{ member.vorname }},
+
+  Mit diesem Link kannst du neue Leute in deine Wichtelgruppe einladen.
+
+---------------------------------------------------------------------------------------------------
+|| Dein Link zum teilen:
+
+<{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'memberform' wichtelgruppe_id=member.wichtelgruppe.id %}>
+
+---------------------------------------------------------------------------------------------------
+                                                                      Liebe Grüße
+
+                                                                      Die freundliche Wichtelit APP

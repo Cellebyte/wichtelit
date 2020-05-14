@@ -12,7 +12,7 @@ from django.views.generic.edit import FormView
 from wichtelit.forms import GruppenForm, MemberForm
 from wichtelit.models import Status, Wichtelgruppe, Wichtelmember
 
-from .logic.email import Email
+from .logic.email import Email, EmailGruppeErstellt
 from .logic.lostopf import LosTopf
 
 # Get an instance of a logger
@@ -151,6 +151,7 @@ class MemberFormView(FormView):
     template_name = 'form_MemberForm.html'
     form_class = MemberForm
     wichtelgruppe_id = None
+    email = EmailGruppeErstellt()
 
     def get_form_kwargs(self):
         kwargs = super(MemberFormView, self).get_form_kwargs()
@@ -160,6 +161,10 @@ class MemberFormView(FormView):
     @staticmethod
     def get_group(wichtelgruppe_id):
         return Wichtelgruppe.objects.get(id=wichtelgruppe_id)
+
+    @staticmethod
+    def get_member_len(wichtelgruppe) -> int:
+        return Wichtelmember.objects.filter(wichtelgruppe=wichtelgruppe).count()
 
     def check_group_available(self, request):
         self.wichtelgruppe_id = self.kwargs.pop('wichtelgruppe_id')
@@ -187,6 +192,9 @@ class MemberFormView(FormView):
         # Nun die wichtelgruppe von oben hinzufügen
         self.object.wichtelgruppe = self.wichtelgruppe
         self.wichtelgruppe.budget = self.wichtelgruppe.budget + form.cleaned_data['budget']
+        if MemberFormView.get_member_len(self.wichtelgruppe) < 1:
+            if self.email.senden(self.object, request=self.request):
+                logger.info(f"Email gesendet an {self.object.emailAdresse}")
         self.object.save()
         self.wichtelgruppe.save()
         return super().form_valid(form)
