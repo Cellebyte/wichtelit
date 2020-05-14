@@ -135,6 +135,10 @@ class WichtelitConfig:
         help="The Secret Key of the Django Application. (Default is development Key," +
         " https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/"
     )
+    debug = environ.bool_var(
+        default=True,
+        help="This enables the development mode."
+    )
     captcha = environ.group(Captcha)
     database = environ.group(Database)
     email = environ.group(Email)

@@ -31,7 +31,7 @@ CONTACT = config.contact
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config.secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config.debug
 
 ALLOWED_HOSTS = []
 
