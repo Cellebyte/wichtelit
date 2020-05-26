@@ -5,15 +5,14 @@
         <div class="col-12">
             <h1 style="word-wrap: break-word;white-space: normal;">Erfolgreich registriert</h1>
             <h3>Am {{ wichtelgruppe.wichteldatum | date:"d.m.Y" }} wird gewichtelt.</h3>
-            <hr/>
+            <hr />
             <p>
-                Du hast dich Erfolgreich in der Wichtelgruppe (<a
-                    style="margin-bottom:4px;white-space: normal;"
+                Du hast dich Erfolgreich in der Wichtelgruppe (<a style="margin-bottom:4px;white-space: normal;"
                     href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">{{ wichtelgruppe.id }}</a>)
                 registriert.
                 Um andere einzuladen teile den folgenden Link.
                 Der Link ist gültig bis zum {{ wichtelgruppe.ablaufdatum|date:"d.m.Y" }}.
-                <hr/>
+                <hr />
                 <a style="margin-bottom:4px;white-space: normal;"
                     href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}</a>
             </p>
