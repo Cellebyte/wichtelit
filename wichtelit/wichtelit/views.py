@@ -5,7 +5,7 @@ from datetime import date, timedelta
 from django import http
 from django.conf import settings
 from django.shortcuts import render
-
+from django.views.decorators.http import require_GET
 from django.views.generic.base import TemplateView, View
 from django.views.generic.edit import FormView
 
@@ -27,6 +27,18 @@ class MyTemplateView(TemplateView):
         context['active'] = self.name
         context['contact'] = self.contact
         return context
+
+
+@require_GET
+def robots_txt(request):
+    lines = [
+        "User-Agent: *",
+        "Disallow: /impressum/",
+        "Disallow: /datenschutz/",
+        "Disallow: /impressum",
+        "Disallow: /datenschutz"
+    ]
+    return http.HttpResponse("\n".join(lines), content_type="text/plain")
 
 
 class HomeView(MyTemplateView):

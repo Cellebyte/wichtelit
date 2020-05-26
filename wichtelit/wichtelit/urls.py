@@ -18,6 +18,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("robots.txt", views.robots_txt, name="robots.txt"),
     path('members/cleanup', views.Cleanup.as_view(), name='cleanup'),
     path('members/calculate', views.Calculation.as_view(), name='calculate'),
     path('members/sendmail', views.Emailing.as_view(), name="sendmail"),
