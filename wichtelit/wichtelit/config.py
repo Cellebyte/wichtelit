@@ -144,6 +144,11 @@ class WichtelitConfig:
         converter=str,
         help="Adding the Allowed host from outside."
     )
+    log_level = environ.var(
+        default='INFO',
+        converter=str,
+        help="Log Level of the application."
+    )
     captcha = environ.group(Captcha)
     database = environ.group(Database)
     email = environ.group(Email)
