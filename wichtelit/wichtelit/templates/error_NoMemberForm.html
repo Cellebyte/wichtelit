@@ -2,13 +2,15 @@
 {% block content %}
 <div class="col-8 col-xs-12 alert alert-danger">
     <div class="row">
-        <h1 class="mt-2 col-12" style="word-wrap: break-word;white-space: normal;">Gruppe Non-Existent</h1>
-        <hr class="mt-0 mb-4 col-12" />
+        <div class="col-12">
+        <h1 style="word-wrap: break-word;white-space: normal;">Gruppe Non-Existent</h1>
+        <hr/>
         <p>
             Diese Gruppe existiert leider nicht.
         </p>
         <a class="btn btn-danger" style="margin-bottom:4px;white-space: normal;"
             href="{% url 'wichteln' %}">Wichtelgruppe erstellen</a>
+        </div>
     </div>
 </div>
 </div>

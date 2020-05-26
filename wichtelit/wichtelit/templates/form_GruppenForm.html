@@ -3,9 +3,9 @@
 {% block content %}
 <div class="col-8 col-xs-12">
     <div class="row">
-        <h1 class="mt-2 col-12" style="word-wrap: break-word;white-space: normal;">Wichtelgruppe erstellen</h1>
-        <hr class="mt-0 mb-4 col-12" />
         <div class="col-12">
+            <h1 style="word-wrap: break-word;white-space: normal;">Wichtelgruppe erstellen</h1>
+            <hr/>
             <form method="post">{% csrf_token %}
                 {{ form|crispy}}
                 <input class="btn btn-outline-success btn-lg btn-block" style="margin-bottom:4px;white-space: normal;"
