@@ -2,15 +2,17 @@
 {% block content %}
 <div class="col-8 col-xs-12 alert alert-info">
     <div class="row">
-        <h1 class="mt-2 col-12" style="word-wrap: break-word;white-space: normal;">Gruppe Geschlossen</h1>
-        <hr class="mt-0 mb-4 col-12" />
-        <p>
-            Tut mir Leid. Hier kannst du leider nicht mehr mit wichteln.
-            Erstelle deine eigene Wichtelgruppe hier!
-        </p>
-        <a class="btn btn-info" style="margin-bottom:4px;white-space: normal;word-wrap: break-word;" href="{% url 'wichteln' %}">Wichtelgruppe
-            erstellen</a>
+        <div class="col-12">
+            <h1 style="word-wrap: break-word;white-space: normal;">Gruppe Geschlossen</h1>
+            <hr />
+            <p>
+                Tut mir Leid. Hier kannst du leider nicht mehr mit wichteln.
+                Erstelle deine eigene Wichtelgruppe hier!
+            </p>
+            <a class="btn btn-info" style="margin-bottom:4px;white-space: normal;word-wrap: break-word;"
+                href="{% url 'wichteln' %}">Wichtelgruppe
+                erstellen</a>
+        </div>
     </div>
 </div>
-
 {% endblock %}

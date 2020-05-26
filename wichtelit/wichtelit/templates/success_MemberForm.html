@@ -2,21 +2,24 @@
 {% block content %}
 <div class="col-8 col-sm-12 alert alert-success">
     <div class="row">
-        <h1 class="mt-2 col-12" style="word-wrap: break-word;white-space: normal;">Erfolgreich registriert</h1>
-        <h3>Am {{ wichtelgruppe.wichteldatum |date:"d.m.Y"}} wird gewichtelt.</h3>
-        <hr class="mt-0 mb-4 col-12" />
-        <p>
-            Du hast dich Erfolgreich in der Wichtelgruppe (<a
-                href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">{{ wichtelgruppe.id }}</a>) registriert.
-            Um andere einzuladen teile den folgenden Link.
-            Der Link ist gültig bis zum {{ wichtelgruppe.ablaufdatum|date:"d.m.Y" }}.
-            <hr class="mt-0 mb-4 col-12" />
-            <a style="word-wrap: break-word;"
-                href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}</a>
-        </p>
-        <a type="button" class="btn btn-outline-dark btn-lg btn-block" style="margin-bottom:4px;white-space: normal;"
-            href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">Weiteres Gruppenmitglied anlegen.</a>
+        <div class="col-12">
+            <h1 style="word-wrap: break-word;white-space: normal;">Erfolgreich registriert</h1>
+            <h3>Am {{ wichtelgruppe.wichteldatum | date:"d.m.Y" }} wird gewichtelt.</h3>
+            <hr />
+            <p>
+                Du hast dich Erfolgreich in der Wichtelgruppe (<a style="margin-bottom:4px;white-space: normal;"
+                    href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">{{ wichtelgruppe.id }}</a>)
+                registriert.
+                Um andere einzuladen teile den folgenden Link.
+                Der Link ist gültig bis zum {{ wichtelgruppe.ablaufdatum|date:"d.m.Y" }}.
+                <hr />
+                <a style="margin-bottom:4px;white-space: normal;"
+                    href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}</a>
+            </p>
+            <a type="button" class="btn btn-outline-dark btn-lg btn-block"
+                style="margin-bottom:4px;white-space: normal;"
+                href="{% url 'memberform' wichtelgruppe_id=wichtelgruppe.id %}">Weiteres Gruppenmitglied anlegen.</a>
+        </div>
     </div>
-</div>
 </div>
 {% endblock %}

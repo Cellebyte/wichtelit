@@ -1,53 +1,56 @@
 {% load my_filters %}
 <!DOCTYPE html>
 <html>
+
 <body style="text-align:center;">
     {% include "wichtel.html" %}
-<h1>Frohes Wichteln</h1>
-<h3>Hallo {{ member.vorname }}</h3>
-<p>{% if current_status.value == "email_versendet" %}
-    Das Ablaufdatum <b>{{ member.wichtelgruppe.ablaufdatum|date:"d.m.Y" }}</b> ist verstrichen.
-    <br/>
-    Die Gruppe wurde nun geschlossen.
-    <br/>
-    Ein Eintragen ist nun nicht mehr möglich,
-    <br/>
-    somit ist nun Wichtelzeit.
-{% elif current_status.value == "letzte_email" %}
-    Das Wichteldatum <b>{{ member.wichtelgruppe.wichteldatum|date:"d.m.Y" }}</b> ist schon in 3 Wochen.
-    <br/>
-    Kümmere dich um ein Geschenk für deinen Wichtelpartner <a href="mailto:{{ member.wichtelpartner.emailAdresse }}">{{ member.wichtelpartner.name }}</a>.
-{% endif %}</p>
-<table style="margin: 0 auto;">
-    <tr>
-        <td>
-            <i>Dein Partner:</i> 
-        </td>
-        <td style="padding-left: 2%;">
-            <a href="mailto:{{ member.wichtelpartner.emailAdresse }}">{{ member.wichtelpartner.name }}</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <i>Dein Budget:</i>
-        </td>
-        <td>
-            <strong>{{ member.budget | comma }} €</strong>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <i>Dein Wichteldatum:</i>
-        </td>
-        <td>
-            <strong>{{ member.wichtelgruppe.ablaufdatum|date:"d.m.Y" }}</strong>
-        </td>
-    </tr>
-</table>
-<p style="text-align: right; margin-right: 10%;">
-    <b>Liebe Grüße</b>
-    <br>
+    <h1>Frohes Wichteln</h1>
+    <h3>Hallo {{ member.vorname }}</h3>
+    <p>{% if current_status.value == "email_versendet" %}
+        Das Ablaufdatum <b>{{ member.wichtelgruppe.ablaufdatum|date:"d.m.Y" }}</b> ist verstrichen.
+        <br />
+        Die Gruppe wurde nun geschlossen.
+        <br />
+        Ein Eintragen ist nun nicht mehr möglich,
+        <br />
+        somit ist nun Wichtelzeit.
+        {% elif current_status.value == "letzte_email" %}
+        Das Wichteldatum <b>{{ member.wichtelgruppe.wichteldatum|date:"d.m.Y" }}</b> ist schon in 3 Wochen.
+        <br />
+        Kümmere dich um ein Geschenk für deinen Wichtelpartner <a
+            href="mailto:{{ member.wichtelpartner.emailAdresse }}">{{ member.wichtelpartner.name }}</a>.
+        {% endif %}</p>
+    <table style="margin: 0 auto;">
+        <tr>
+            <td>
+                <i>Dein Partner:</i>
+            </td>
+            <td style="padding-left: 2%;">
+                <a href="mailto:{{ member.wichtelpartner.emailAdresse }}">{{ member.wichtelpartner.name }}</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <i>Dein Budget:</i>
+            </td>
+            <td>
+                <strong>{{ member.budget | comma }} €</strong>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <i>Dein Wichteldatum:</i>
+            </td>
+            <td>
+                <strong>{{ member.wichtelgruppe.ablaufdatum|date:"d.m.Y" }}</strong>
+            </td>
+        </tr>
+    </table>
+    <p style="text-align: right; margin-right: 10%;">
+        <b>Liebe Grüße</b>
+        <br>
     <p style="text-align: right; margin-right: 5%;">Die freundliche <i>Wichtelit</i> APP</p>
-</p>
+    </p>
 </body>
+
 </html>
