@@ -8,4 +8,5 @@ register = template.Library()
 @stringfilter
 def comma(value: str) -> str:  # Only one argument.
     """Converts a string into all lowercase"""
+    value = f'{float(value):.2f}'
     return value.replace('.', ',')
