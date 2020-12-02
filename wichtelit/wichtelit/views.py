@@ -88,10 +88,10 @@ class GruppenView(FormView):
 class Calculation(View):
 
     def get(self, request, *args, **kwargs):
-        # Nimmt alle Gruppen die erstellt wurden und dessen ablaufdatum kleiner heute ist.
+        # Nimmt alle Gruppen die erstellt wurden und dessen anmeldeschluss kleiner heute ist.
         gruppen = Wichtelgruppe.objects.filter(
             status=Status.ERSTELLT,
-            ablaufdatum__lt=date.today()
+            anmeldeschluss__lt=date.today()
         )
         for gruppe in gruppen:
             members = Wichtelmember.objects.filter(wichtelgruppe=gruppe)
@@ -113,7 +113,7 @@ class Emailing(View):
         # Direkt nachdem gewürfelt wurde.
         gruppen = Wichtelgruppe.objects.filter(
             status=Status.GEWÜRFELT,
-            ablaufdatum__lt=date.today()
+            anmeldeschluss__lt=date.today()
         )
         for gruppe in gruppen:
             members = Wichtelmember.objects.filter(wichtelgruppe=gruppe)
@@ -130,7 +130,7 @@ class EmailingLastReminder(Emailing):
         # Wenn das Wichteldatum in drei Wochen liegt.
         gruppen = Wichtelgruppe.objects.filter(
             status=Status.EMAIL_VERSENDET,
-            ablaufdatum__lt=date.today(),
+            anmeldeschluss__lt=date.today(),
             wichteldatum__lt=date.today() + timedelta(weeks=3)
         )
         for gruppe in gruppen:
@@ -147,7 +147,7 @@ class Cleanup(View):
     def get(self, request, *args, **kwargs):
         gruppen = Wichtelgruppe.objects.filter(
             status=Status.LETZTE_EMAIL,
-            ablaufdatum__lt=date.today(),
+            anmeldeschluss__lt=date.today(),
             wichteldatum__lt=date.today() + timedelta(days=3)
         )
         members = Wichtelmember.objects.filter(
@@ -186,7 +186,7 @@ class MemberFormView(FormView):
             )
         except Wichtelgruppe.DoesNotExist:
             return render(request, 'error_NoMemberForm.html', status=400)
-        if date.today() > self.wichtelgruppe.ablaufdatum:
+        if date.today() > self.wichtelgruppe.anmeldeschluss:
             return render(request, 'error_ClosedMemberForm.html', status=403)
         return False
 

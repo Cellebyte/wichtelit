@@ -8,7 +8,7 @@
 Hallo {{ member.vorname }},
 
 {% if current_status.value == "email_versendet" %}
-    Das Ablaufdatum {{ member.wichtelgruppe.ablaufdatum|date:"d.m.Y" }} ist verstrichen.
+    Der Anmeldeschluss {{ member.wichtelgruppe.anmeldeschluss|date:"d.m.Y" }} ist verstrichen.
 
     Die Gruppe wurde nun geschlossen.
     Ein Eintragen ist nun nicht mehr möglich,

@@ -7,7 +7,7 @@
     <h1>Frohes Wichteln</h1>
     <h3>Hallo {{ member.vorname }}</h3>
     <p>{% if current_status.value == "email_versendet" %}
-        Das Ablaufdatum <b>{{ member.wichtelgruppe.ablaufdatum|date:"d.m.Y" }}</b> ist verstrichen.
+        Der Anmeldeschluss <b>{{ member.wichtelgruppe.anmeldeschluss|date:"d.m.Y" }}</b> ist verstrichen.
         <br />
         Die Gruppe wurde nun geschlossen.
         <br />

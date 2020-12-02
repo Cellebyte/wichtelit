@@ -41,25 +41,25 @@ class MemberForm(ModelForm):
 
 
 class GruppenForm(ModelForm):
-    ablaufdatum = DateField(input_formats=['%d.%m.%Y'])
+    anmeldeschluss = DateField(input_formats=['%d.%m.%Y'])
     wichteldatum = DateField(input_formats=['%d.%m.%Y'])
     captcha = ReCaptchaField(widget=ReCaptchaV3)
 
     def clean(self):
         cleaned_data = super().clean()
-        ablaufdatum = cleaned_data.get("ablaufdatum")
+        anmeldeschluss = cleaned_data.get("anmeldeschluss")
         wichteldatum = cleaned_data.get("wichteldatum")
-        if ablaufdatum and wichteldatum:
-            if wichteldatum <= ablaufdatum:
+        if anmeldeschluss and wichteldatum:
+            if wichteldatum <= anmeldeschluss:
                 raise ValidationError(
-                    "Das Wichteldatum muss später als das Ablaufdatum sein."
+                    "Das Wichteldatum muss später als der Anmeldeschluss sein."
                 )
 
-    def clean_ablaufdatum(self):
-        ablaufdatum = self.cleaned_data.get('ablaufdatum')
-        if ablaufdatum < date.today():
-            raise ValidationError("Das Ablaufdatum kann nicht in der Vergangenheit liegen.")
-        return ablaufdatum
+    def clean_anmeldeschluss(self):
+        anmeldeschluss = self.cleaned_data.get('anmeldeschluss')
+        if anmeldeschluss < date.today():
+            raise ValidationError("Der Anmeldeschluss kann nicht in der Vergangenheit liegen.")
+        return anmeldeschluss
 
     class Meta:
         model = Wichtelgruppe

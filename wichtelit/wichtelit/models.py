@@ -15,7 +15,7 @@ class Status(Enum):
 class Wichtelgruppe(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     budget = models.IntegerField(null=True, blank=True)
-    ablaufdatum = models.DateField()
+    anmeldeschluss = models.DateField()
     wichteldatum = models.DateField()
     status = EnumChoiceField(Status, default=Status.ERSTELLT)
 
