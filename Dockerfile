@@ -2,7 +2,7 @@ FROM python:3.9
 WORKDIR /app
 COPY Pipfile Pipfile.lock ./
 RUN pip install pipenv
-RUN pipenv lock --requirements > requirements.txt
+RUN pipenv requirements > requirements.txt
 
 FROM python:3.9-slim
 RUN mkdir -p /workspace/app && useradd -rm -d /workspace/app -s /bin/bash -u 1000 app
