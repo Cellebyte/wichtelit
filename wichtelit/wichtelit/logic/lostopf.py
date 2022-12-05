@@ -11,14 +11,14 @@ logger = logging.getLogger(__name__)
 class LosTopf(object):
 
     @staticmethod
-    def scrambled(original)
+    def scrambled(original):
         dest = original[:]
         random.shuffle(dest)
         return dest
 
     def ziehen(members: List[Wichtelmember], lostopf: List[Wichtelmember]):
         for index in range(len(members)):
-            lostopf = scrambled(lostopf)
+            lostopf = LosTopf.scrambled(lostopf)
             not_in_list = False
             loszieher = members[index]
             try:
