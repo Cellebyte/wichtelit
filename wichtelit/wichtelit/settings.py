@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'crispy_bootstrap4',
     'wichtelit',
     'captcha',
 ]
@@ -93,6 +94,9 @@ ROOT_URLCONF = 'wichtelit.urls'
 RECAPTCHA_REQUIRED_SCORE = config.captcha.score
 RECAPTCHA_PRIVATE_KEY = config.captcha.private_key
 RECAPTCHA_PUBLIC_KEY = config.captcha.public_key
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 TEMPLATES = [
