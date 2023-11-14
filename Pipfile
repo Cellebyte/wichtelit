@@ -15,6 +15,7 @@ psycopg2-binary = "*"
 django-enum-choices = "*"
 django-recaptcha = "*"
 environ-config = "*"
+crispy-bootstrap4 = "*"
 
 [requires]
 python_version = "3.11"
