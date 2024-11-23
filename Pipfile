@@ -13,9 +13,9 @@ django = "*"
 django-crispy-forms = "*"
 psycopg2-binary = "*"
 django-enum-choices = "*"
-django-recaptcha = "*"
 environ-config = "*"
 crispy-bootstrap4 = "*"
+django-recaptcha = "*"
 
 [requires]
 python_version = "3.11"

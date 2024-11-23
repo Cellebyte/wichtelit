@@ -1,7 +1,7 @@
 from datetime import date
 
-from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV3
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV3
 from django.forms import DateField, IntegerField, ModelForm, ValidationError
 
 from wichtelit.models import Wichtelgruppe, Wichtelmember

@@ -76,7 +76,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'wichtelit',
-    'captcha',
+    'django_recaptcha',
 ]
 
 MIDDLEWARE = [
