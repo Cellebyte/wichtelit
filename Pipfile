@@ -10,15 +10,15 @@ gunicorn = "*"
 
 [packages]
 django = "*"
-django-crispy-forms = "*"
-psycopg2-binary = "*"
-django-enum-choices = "*"
-environ-config = "*"
-crispy-bootstrap4 = "*"
 django-recaptcha = "*"
+crispy-bootstrap4 = "*"
+environ-config = "*"
+psycopg2-binary = "*"
+django-crispy-forms = "*"
+django-enum-choices = "*"
 
 [requires]
-python_version = "3.11"
+python_version = "3.14"
 
 [scripts]
 dev = 'python wichtelit/manage.py runserver'
